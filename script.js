@@ -1,3 +1,10 @@
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase with your API URL and anon key
+const supabaseUrl = 'https://povwczlfayghyscovpes.supabase.co';  // Replace with your Supabase URL
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';  // Replace with your Supabase anon key
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 // DOM Elements
 const usernameInput = document.getElementById("usernameInput");
 const addUsernameBtn = document.getElementById("addUsernameBtn");
@@ -9,21 +16,12 @@ const manualExpInput = document.getElementById("manualExpInput");
 const addManualExpBtn = document.getElementById("addManualExpBtn");
 const userListUl = document.getElementById("userListUl");
 
-// Real-time subscription to listen for changes in 'users' table
-const usersSubscription = supabase
-  .from('users')
-  .on('*', payload => {
-    console.log('Change received!', payload); // Logs when a change happens in the 'users' table
-    updateUI();  // Update the UI with the new data from the real-time payload
-  })
-  .subscribe();
-
 // Add Username Event Listener
 addUsernameBtn.addEventListener("click", async () => {
   const username = usernameInput.value.trim();
   if (username) {
     const { data, error } = await supabase
-      .from('users')
+      .from('users')  // Make sure the table name is 'users' in Supabase
       .select('id')
       .eq('id', username)
       .single();
@@ -39,6 +37,7 @@ addUsernameBtn.addEventListener("click", async () => {
       } else {
         console.log("User added:", username);
         usernameInput.value = "";  // Clear input field
+        updateUI();  // Update UI after adding user
       }
     } else {
       alert("Username already exists.");
@@ -157,6 +156,8 @@ async function updateUI() {
   }
 
   usernameSelect.innerHTML = `<option value="" disabled selected>Select Username</option>`;
+  userListUl.innerHTML = ""; // Clear the user list first before adding new users
+
   data.forEach(user => {
     const option = document.createElement("option");
     option.value = user.id;
@@ -171,6 +172,15 @@ async function updateUI() {
     userListUl.appendChild(li);
   });
 }
+
+// Set up the real-time listener to listen for any changes to the users table
+supabase
+  .from('users')
+  .on('*', payload => {
+    console.log('Change received!', payload); // Logs any change made to the users table
+    updateUI();  // Refresh the UI with updated data
+  })
+  .subscribe();
 
 // Initial Load
 window.onload = () => {
