@@ -2,8 +2,11 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase with your API URL and anon key
 const supabaseUrl = 'https://povwczlfayghyscovpes.supabase.co';  // Replace with your Supabase URL
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEYeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvdndjemxmYXlnaHlzY292cGVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYxNjY5NTcsImV4cCI6MjA1MTc0Mjk1N30.0RDIER4eVRMQ4BiWp2Gu13X-eWBET3rNN8SaAvmNH00';  // Replace with your Supabase anon key
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvdndjemxmYXlnaHlzY292cGVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYxNjY5NTcsImV4cCI6MjA1MTc0Mjk1N30.0RDIER4eVRMQ4BiWp2Gu13X-eWBET3rNN8SaAvmNH00';  // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log(supabase);
+
 
 // DOM Elements
 const usernameInput = document.getElementById("usernameInput");
