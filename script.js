@@ -22,12 +22,16 @@ const userListUl = document.getElementById("userListUl");
 // Add Username Event Listener
 addUsernameBtn.addEventListener("click", async () => {
   const username = usernameInput.value.trim();
+  console.log("Button clicked, Username:", username);  // Add this line for debugging
+
   if (username) {
     const { data, error } = await supabase
       .from('users')  // Make sure the table name is 'users' in Supabase
       .select('id')
       .eq('id', username)
       .single();
+
+    console.log("Data and Error on Select:", data, error);  // Add this line to see what is returned from the query
 
     if (!data) {
       // Username does not exist, insert new user
